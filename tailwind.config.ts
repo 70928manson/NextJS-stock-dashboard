@@ -15,6 +15,16 @@ const config: Config = {
       },
       minHeight: {
         "main-content": "calc(100vh - 64px)"
+      },
+      colors: {
+        'stock-red': '#EA5E5B',
+        'stock-green': '#51a551',
+      },
+      margin: {
+        'home-market-info': "12px auto 60px",
+      },
+      boxShadow: {
+        'home-market-info': "0 1px 3px rgba(0,0,0,0.15)",
       }
     },
   },
