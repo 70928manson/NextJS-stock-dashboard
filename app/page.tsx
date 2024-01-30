@@ -1,14 +1,73 @@
-import Image from "next/image";
+'use client';
+
 import MarketItem from "./components/home/MarketItem";
+import { useEffect, useState } from "react";
+import { fetchMarketTrades, fetchTSEIndex } from "./lib/actions";
+
+interface data {
+  date: string;
+  tradeVolume: number,
+  tradeValue: number,
+  transaction: number,
+  price: number,
+  change: number,
+}
 
 export default function Home() {
+  const [TSEindex, setTSEindex] = useState({
+    closePrice: 0,
+    change: 0,
+    changePercent: -0.47,
+    totalTradeValue: 0
+  });
+  const [yesterdayData, setYesterdayData] = useState<data>({
+    date: "",
+    tradeVolume: 0,
+    tradeValue: 0,
+    transaction: 0,
+    price: 0,
+    change: 0
+  });
+  const [status, setStatus] = useState("unch");
+
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const date = String(today.getDate() - 1).padStart(2, "0");
+    fetchMarketTrades(`${year}-${month}-${date}`).then((res) => {
+      setYesterdayData(res);
+    });
+
+
+    //台股當日大盤指數
+    fetchTSEIndex().then((res) => {
+      console.log("res", res);
+      setTSEindex({
+        closePrice: res.closePrice,
+        change: res.change,
+        changePercent: res.changePercent,
+        totalTradeValue: Math.round(res.total.tradeValue / 100000000 * 100) / 100
+      })
+      if (res.change > 0) {
+        setStatus("up");
+      } else if (res.change === 0) {
+        setStatus("unch");
+      } else {
+        setStatus("down")
+      }
+    });
+  }, []);
+
+  if (yesterdayData.date.length === 0) return <div>loading...</div>
+
   return (
     <main className="flex min-h-main-content flex-col items-center">
       <div className="max-w-[1140px] w-[80%] m-home-market-info">
         <div className="w-full overflow-hidden relative bg-white rounded shadow-home-market-info my-auto">
           <div className="flex m-2">
-            <MarketItem title={"台股加權指數"} value={`17995.03`} misc={`-7.95 (-0.04%)`} status={`down`} />
-            <MarketItem title={"台股成交金額"} value={`2581.44億`} misc={`昨日3005.17億`} />
+            <MarketItem title={"台股加權指數"} value={`${TSEindex.closePrice}`} misc={`${TSEindex.change} (${TSEindex.changePercent}%)`} status={status} />
+            <MarketItem title={"台股成交金額"} value={`${TSEindex.totalTradeValue}億`} misc={`昨日${Math.round(yesterdayData.tradeValue / 100000000 * 100) / 100}億`} />
             <MarketItem title={"台股股價淨值比"} value={`2.13倍`} misc={`昨日2.13倍`} />
             <MarketItem title={"台股本益比"} value={`21.25倍`} misc={`昨日21.25倍`} />
           </div>
