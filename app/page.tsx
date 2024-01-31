@@ -1,23 +1,26 @@
 'use client';
 
-import MarketItem from "./components/home/MarketItem";
+import MarketItem from "../components/home/MarketItem";
 import { useEffect, useState } from "react";
-import { fetchMarketTrades, fetchTSEIndex } from "./lib/actions";
+import { fetchMarketTrades, fetchTSEIndex, fetchTSEIndexHistory } from "./lib/actions";
+
+import TSEHistory from "../components/home/TSEHistory";
+import { candleData } from "@/types/components/TSEHistory";
 
 interface data {
   date: string;
-  tradeVolume: number,
-  tradeValue: number,
-  transaction: number,
-  price: number,
-  change: number,
+  tradeVolume: number;
+  tradeValue: number;
+  transaction: number;
+  price: number;
+  change: number;
 }
 
 export default function Home() {
   const [TSEindex, setTSEindex] = useState({
     closePrice: 0,
     change: 0,
-    changePercent: -0.47,
+    changePercent: 0,
     totalTradeValue: 0
   });
   const [yesterdayData, setYesterdayData] = useState<data>({
@@ -28,6 +31,14 @@ export default function Home() {
     price: 0,
     change: 0
   });
+  const [TSEToday, setTSEToday] = useState<candleData>({
+    time: "",
+    open: "",
+    close: "",
+    high: "",
+    low: "",
+    value: "" 
+  })
   const [status, setStatus] = useState("unch");
 
   useEffect(() => {
@@ -39,10 +50,17 @@ export default function Home() {
       setYesterdayData(res);
     });
 
-
     //台股當日大盤指數
     fetchTSEIndex().then((res) => {
-      console.log("res", res);
+      setTSEToday({
+        time: res.date,
+        open: res.openPrice,
+        close: res.closePrice,
+        high: res.highPrice,
+        low: res.lowPrice,
+        value: res.closePrice
+      })
+      
       setTSEindex({
         closePrice: res.closePrice,
         change: res.change,
@@ -59,7 +77,7 @@ export default function Home() {
     });
   }, []);
 
-  if (yesterdayData.date.length === 0) return <div>loading...</div>
+  //if (yesterdayData.date.length === 0) return <div>loading...</div>
 
   return (
     <main className="flex min-h-main-content flex-col items-center">
@@ -71,10 +89,10 @@ export default function Home() {
             <MarketItem title={"台股股價淨值比"} value={`2.13倍`} misc={`昨日2.13倍`} />
             <MarketItem title={"台股本益比"} value={`21.25倍`} misc={`昨日21.25倍`} />
           </div>
-          <div>指數圖</div>
         </div>
       </div>
-      <div>
+      <TSEHistory TSEToday={TSEToday} />
+      <div className="mt-2">
         產業熱力圖
       </div>
     </main>

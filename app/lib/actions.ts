@@ -28,8 +28,6 @@ export async function fetchMarketTrades(date: string) {
 
     // 取得回應資料
     const response = await fetch(url).then((res) => res.json());
-    console.log("response", response);
-    
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
     if (!response) return null;
@@ -69,17 +67,47 @@ export async function fetchTSEIndex() {
         const headers = {
             'X-API-KEY': `${process.env.X_API_KEY}`,
             'Content-Type': 'application/json'
-        }
+        };
+
         const response = await fetch(`${apiTSEIndexUrl}`, {
             headers: headers,
-        })
+        });
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json()
-        console.log('data', data)
-        return data
+        };
+
+        const data = await response.json();
+        //console.log("TSE today data", data)
+        return data;
     } catch (error) {
-        console.error('API 請求錯誤:', error)
+        console.error('API 請求錯誤:', error);
+    }
+}
+
+const apiTSEIndexHistoryUrl = 'https://api.fugle.tw/marketdata/v1.0/stock/historical/candles/IX0001'
+
+export async function fetchTSEIndexHistory(from: string, to: string) {
+    try {
+        const headers = {
+            'X-API-KEY': `${process.env.X_API_KEY}`,
+            'Content-Type': 'application/json'
+        }
+        const payload = new URLSearchParams({
+            from: from,
+            to: to,
+            fields: 'open,high,low,close,volume'
+        });
+        const response = await fetch(`${apiTSEIndexHistoryUrl}?${payload}`, {
+            headers: headers,
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        };
+        const data = await response.json();
+        //console.log('TSE History data', data);
+        return data.data;
+    } catch (error) {
+        console.error('API 請求錯誤:', error);
     }
 }
