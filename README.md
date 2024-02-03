@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-> 串接證交所和富果API, 獲取總體經濟數據判斷景氣週期
+> 串接證交所和富果API, 獲取各式總體經濟數據判斷景氣週期
 
 ## Getting Started
 
