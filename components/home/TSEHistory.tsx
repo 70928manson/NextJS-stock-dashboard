@@ -12,10 +12,13 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
 
     const fetchTSEData = async () => {
         const today = new Date();
-        const todayYear = today.getFullYear();
-        const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
-        const todayDate = String(today.getDate() - 1).padStart(2, "0");
-        const to = `${todayYear}-${todayMonth}-${todayDate}`;
+        
+        //上一個交易日
+        const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
+        const yesterdayYear = yesterday.getFullYear();
+        const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
+        const yesterdayDate = String(yesterday.getDate()).padStart(2, "0");
+        const to = `${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`;
 
         //一年之前
         const start = new Date();
@@ -54,7 +57,7 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
                 width: chartWidth,
                 height: 400
             })
-
+            
             const data: candleData[] = TSEHistoryData.map((item) => {
                 return {
                     time: item.date,

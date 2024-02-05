@@ -2,7 +2,7 @@
 
 import MarketItem from "../components/home/MarketItem";
 import { useEffect, useState } from "react";
-import { fetchMarketTrades, fetchTSEIndex, fetchTSEIndexHistory } from "./lib/actions";
+import { fetchMarketTrades, fetchTSEIndex } from "./lib/actions";
 
 import TSEHistory from "../components/home/TSEHistory";
 import { candleData } from "@/types/components/TSEHistory";
@@ -43,15 +43,19 @@ export default function Home() {
 
   useEffect(() => {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const date = String(today.getDate() - 1).padStart(2, "0");
-    fetchMarketTrades(`${year}-${month}-${date}`).then((res) => {
+
+    //抓上一個交易日大盤指數資料
+    const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
+    const yesterdayYear = yesterday.getFullYear();
+    const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
+    const yesterdayDate = String(yesterday.getDate()).padStart(2, "0");
+    fetchMarketTrades(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`).then((res) => {
       setYesterdayData(res);
     });
 
     //台股當日大盤指數
     fetchTSEIndex().then((res) => {
+      //給candle圖的
       setTSEToday({
         time: res.date,
         open: res.openPrice,
@@ -61,6 +65,7 @@ export default function Home() {
         value: res.closePrice
       })
       
+      //給marketItem的
       setTSEindex({
         closePrice: res.closePrice,
         change: res.change,

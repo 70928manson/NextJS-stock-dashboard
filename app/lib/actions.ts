@@ -3,16 +3,7 @@
 import { DateTime } from 'luxon';
 import numeral from "numeral";
 
-interface data {
-    date: string | null;
-    tradeVolume: number,
-    tradeValue: number,
-    transaction: number,
-    price: number,
-    change: number,
-}
-
-//不包括今日即時 只有到昨天QQ
+//不包括今日即時 只有到上一個交易日
 export async function fetchMarketTrades(date: string) {
     // 將 `date` 轉換成 `yyyyMMdd` 格式
     const formattedDate = DateTime.fromISO(date).toFormat('yyyyMMdd');
@@ -23,8 +14,6 @@ export async function fetchMarketTrades(date: string) {
         date: formattedDate,  // 指定資料日期
     });
     const url = `https://www.twse.com.tw/exchangeReport/FMTQIK?${query}`;
-
-    //問題 response type
 
     // 取得回應資料
     const response = await fetch(url).then((res) => res.json());
@@ -53,9 +42,11 @@ export async function fetchMarketTrades(date: string) {
             price,
             change,
         };
-    }).find((data: data) => data.date === date) || null  //取得目標日期的成交資訊
+    })
+    //.find((data: data) => data.date === date) || null  //取得目標日期的成交資訊
+    const length = data.length
 
-    return data;
+    return data[length - 1];
 };
 
 //富果API版本
