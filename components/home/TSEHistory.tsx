@@ -69,15 +69,18 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
                 }
             });
             data.reverse();
+            
             //這裡push最新今日資料
-            data.push({
-                time: TSEToday.time,
-                open: TSEToday.open,
-                close: TSEToday.close,
-                high: TSEToday.high,
-                low: TSEToday.low,
-                value: TSEToday.value 
-            })
+            if (data[data.length - 1].time !== TSEToday.time) {
+                data.push({
+                    time: TSEToday.time,
+                    open: TSEToday.open,
+                    close: TSEToday.close,
+                    high: TSEToday.high,
+                    low: TSEToday.low,
+                    value: TSEToday.value
+                })
+            }
 
             const candlestickSeries = chart.addCandlestickSeries({
                 upColor: '#EF5350',
