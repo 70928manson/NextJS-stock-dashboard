@@ -2,7 +2,7 @@
 
 import MarketItem from "../components/home/MarketItem";
 import { useEffect, useState } from "react";
-import { fetchMarketTrades, fetchTSEIndex } from "./lib/actions";
+import { fetchMarketTrades, fetchTSEIndex } from "./lib/homeAction";
 
 import TSEHistory from "../components/home/TSEHistory";
 import { candleData } from "@/types/components/TSEHistory";
