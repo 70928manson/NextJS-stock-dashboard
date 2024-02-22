@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useTransition } from 'react'
 import { createChart } from 'lightweight-charts'
-import { fetchTSEIndexHistory } from '@/app/lib/actions';
+import { fetchTSEIndexHistory } from '@/app/lib/homeAction';
 import { historyData, candleData, TSEHistoryProps } from '@/types/components/TSEHistory';
 
 const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
