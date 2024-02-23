@@ -3,16 +3,16 @@
 import React, { useEffect, useState, useTransition } from 'react'
 import { createChart } from 'lightweight-charts'
 import { fetchTSEIndexHistory } from '@/app/lib/homeAction';
-import { historyData, candleData, TSEHistoryProps } from '@/types/components/TSEHistory';
+import { historyData, candleData, CandleHistoryProps } from '@/types/components/CandleHistory';
 
-const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
-    const [TSEHistoryData, setTSEHistoryData] = useState<historyData[]>([]);
+const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
+    const [CandleHistoryData, setCandleHistoryData] = useState<historyData[]>([]);
     const [isPending, startTransition] = useTransition();
     const [loading, setLoading] = useState(true);
 
     const fetchTSEData = async () => {
         const today = new Date();
-        
+
         //上一個交易日
         const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
         const yesterdayYear = yesterday.getFullYear();
@@ -29,11 +29,11 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
         const from = `${startYear}-${startMonth}-${startDate}`;
 
         try {
-            const response = await fetchTSEIndexHistory(from, to);          
-            setTSEHistoryData(response);
+            const response = await fetchTSEIndexHistory(from, to);
+            setCandleHistoryData(response);
         } catch (error: any) {
             console.log("err", error);
-            
+
         } finally {
             setTimeout(() => {
                 setLoading(false);
@@ -47,7 +47,7 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
 
     useEffect(() => {
         const fetchChart = () => {
-            const parentElement = document.getElementById('TSEHistory') as HTMLElement;
+            const parentElement = document.getElementById('CandleHistory') as HTMLElement;
 
             const chartWidth = parentElement.clientWidth;
             const chartHeight = parentElement.clientHeight;
@@ -57,8 +57,8 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
                 width: chartWidth,
                 height: 400
             })
-            
-            const data: candleData[] = TSEHistoryData.map((item) => {
+
+            const data: candleData[] = CandleHistoryData.map((item) => {
                 return {
                     time: item.date,
                     open: item.open,
@@ -69,16 +69,16 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
                 }
             });
             data.reverse();
-            
+
             //這裡push最新今日資料
-            if (data[data.length - 1].time !== TSEToday.time) {
+            if (data[data.length - 1].time !== candleToday.time) {
                 data.push({
-                    time: TSEToday.time,
-                    open: TSEToday.open,
-                    close: TSEToday.close,
-                    high: TSEToday.high,
-                    low: TSEToday.low,
-                    value: TSEToday.value
+                    time: candleToday.time,
+                    open: candleToday.open,
+                    close: candleToday.close,
+                    high: candleToday.high,
+                    low: candleToday.low,
+                    value: candleToday.value
                 })
             }
 
@@ -92,10 +92,11 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
 
             candlestickSeries.setData(data);
         }
-        if (TSEHistoryData.length === 0) return
+        if (CandleHistoryData.length === 0) return
         if (loading) return
+        if (candleToday.time.length === 0) return
         fetchChart()
-    }, [TSEHistoryData, loading])
+    }, [CandleHistoryData, loading])
 
     return (
         <>
@@ -106,7 +107,7 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
                 </div>
             </div>}
             {!loading && <div className='w-[80%] overflow-auto mx-auto'>
-                {(TSEHistoryData.length === 0) ?
+                {(CandleHistoryData.length === 0) ?
                     <div className="flex flex-col items-center justify-center bg-info h-96">
                         <h2 className="text-white text-center">OOPS！資料有誤，暫時無法顯示</h2>
                         <button
@@ -117,11 +118,11 @@ const TSEHistory = ({ TSEToday }: TSEHistoryProps) => {
                         </button>
                         <div className="text-secondary text-center text-xs mt-4">如果錯誤持續發生，請聯繫管理員</div>
                     </div> :
-                    <div id="TSEHistory"></div>
+                    <div id="CandleHistory"></div>
                 }
             </div>}
         </>
     )
 }
 
-export default TSEHistory
+export default CandleHistory

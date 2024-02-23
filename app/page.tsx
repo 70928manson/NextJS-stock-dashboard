@@ -4,8 +4,8 @@ import MarketItem from "../components/home/MarketItem";
 import { useEffect, useState } from "react";
 import { fetchMarketTrades, fetchTSEIndex } from "./lib/homeAction";
 
-import TSEHistory from "../components/home/TSEHistory";
-import { candleData } from "@/types/components/TSEHistory";
+import CandleHistory from "@/components/CandleHistory";
+import { candleData } from "@/types/components/CandleHistory";
 
 interface data {
   date: string;
@@ -96,7 +96,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <TSEHistory TSEToday={TSEToday} />
+      <CandleHistory candleToday={TSEToday} />
       <div className="mt-2">
         產業熱力圖
       </div>

@@ -17,6 +17,6 @@ export interface candleData {
     value: string;
 }
 
-export interface TSEHistoryProps {
-    TSEToday: candleData
+export interface CandleHistoryProps {
+    candleToday: candleData
 }
