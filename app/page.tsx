@@ -6,15 +6,7 @@ import { fetchMarketTrades, fetchTSEIndex } from "./lib/homeAction";
 
 import CandleHistory from "@/components/CandleHistory";
 import { candleData } from "@/types/components/CandleHistory";
-
-interface data {
-  date: string;
-  tradeVolume: number;
-  tradeValue: number;
-  transaction: number;
-  price: number;
-  change: number;
-}
+import { marketTradeData } from "@/types/home";
 
 export default function Home() {
   const [TSEindex, setTSEindex] = useState({
@@ -23,7 +15,7 @@ export default function Home() {
     changePercent: 0,
     totalTradeValue: 0
   });
-  const [yesterdayData, setYesterdayData] = useState<data>({
+  const [yesterdayData, setYesterdayData] = useState<marketTradeData>({
     date: "",
     tradeVolume: 0,
     tradeValue: 0,
