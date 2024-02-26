@@ -1,18 +1,44 @@
-'use client';
+import { fetchTWSEBasicData, fetchFugleTodayData } from '@/app/lib/stockAction';
+import { notFound } from 'next/navigation';
 
-import { useParams } from 'next/navigation';
+export default async function Page({ params }: { params: { id: string } }) {
+    const id = params.id;
 
-export default async function Page() {
-    const params = useParams<{id: string}>();
+    const today = new Date();
 
+    //call證交所api抓上一個交易日該個股的本益比, 股價淨值比, 殖利率
+    const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
+    const yesterdayYear = yesterday.getFullYear();
+    const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
+    const yesterdayDate = String(yesterday.getDate()).padStart(2, "0");
+
+    const [basic, todayData] = await Promise.all([
+        fetchTWSEBasicData(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`, id),
+        fetchFugleTodayData(id),
+    ]);
+    
+    if (!basic || !todayData) {
+        notFound();
+    }
+    
     return (
         <main>
-            <p>Current params id: {params.id}</p>
             個股頁面
-            籌碼
-            k棒
-            基本面
-            新聞動態
+            <p>Current params id: {id}</p>
+
+            <p>價格: {todayData.price}</p>
+            <p>漲跌幅: {todayData.changePercent}</p>
+            <p>漲跌金額: {todayData.change}</p>
+            <p>成交量: {todayData.tradeVolume}</p>
+            <p>成交金額: {todayData.tradeValue}</p>
+
+            <p>本益比: {basic.PE}</p>
+            <p>淨值比: {basic.PB}</p>
+            <p>殖利率: {basic.dividenedYield}</p>
+
+            <p>籌碼</p>
+            
+            <p>K棒圖</p>
         </main>
     );
 }
