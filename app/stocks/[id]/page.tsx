@@ -1,4 +1,5 @@
 import { fetchTWSEBasicData, fetchFugleTodayData } from '@/app/lib/stockAction';
+import CandleHistory from '@/components/CandleHistory';
 import { notFound } from 'next/navigation';
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -20,17 +21,26 @@ export default async function Page({ params }: { params: { id: string } }) {
     if (!basic || !todayData) {
         notFound();
     }
+
+    const candleData = {
+        time: todayData.date,
+        open: todayData.openPrice,
+        close: todayData.closePrice,
+        high: todayData.highPrice,
+        low: todayData.lowPrice,
+        value: todayData.closePrice
+    }
     
     return (
         <main>
             個股頁面
             <p>Current params id: {id}</p>
 
-            <p>價格: {todayData.price}</p>
+            <p>價格: {todayData.lastTrade.price}</p>
             <p>漲跌幅: {todayData.changePercent}</p>
             <p>漲跌金額: {todayData.change}</p>
-            <p>成交量: {todayData.tradeVolume}</p>
-            <p>成交金額: {todayData.tradeValue}</p>
+            <p>成交量: {todayData.total.tradeVolume}</p>
+            <p>成交金額: {todayData.total.tradeValue}</p>
 
             <p>本益比: {basic.PE}</p>
             <p>淨值比: {basic.PB}</p>
@@ -39,6 +49,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <p>籌碼</p>
             
             <p>K棒圖</p>
+            <CandleHistory candleToday={candleData} stockNo={id} />
         </main>
     );
 }

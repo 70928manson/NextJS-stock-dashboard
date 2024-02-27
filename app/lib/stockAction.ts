@@ -1,6 +1,6 @@
 'use server';
 
-import { stockFugleData, stockTWSEData } from '@/types/stock';
+import { stockTWSEData } from '@/types/stock';
 import { DateTime } from 'luxon';
 import numeral from "numeral";
 
@@ -68,25 +68,15 @@ export async function fetchFugleTodayData(stockNo: string) {
         };
 
         const data = await response.json();
-
-        const stockData: stockFugleData = {
-            price: data.lastTrade.price,
-            change: data.change,
-            changePercent: data.changePercent,
-            tradeVolume: data.total.tradeVolume, //成交量
-            tradeValue: data.total.tradeValue, //成交金額
-        };
-
-        return stockData
+        return data;
     } catch (error) {
         console.error('API 請求錯誤:', error);
     }
 }
 
 //富果api candle圖
-const apiTSEIndexHistoryUrl = 'https://api.fugle.tw/marketdata/v1.0/stock/historical/candles/IX0001'
-
-export async function fetchTSEIndexHistory(from: string, to: string) {
+export async function fetchStockCandleHistory(from: string, to: string, stockNo: string) {
+    const apiStockHistoryUrl = `https://api.fugle.tw/marketdata/v1.0/stock/historical/candles/${stockNo}`
     try {
         const headers = {
             'X-API-KEY': `${process.env.X_API_KEY}`,
@@ -97,7 +87,7 @@ export async function fetchTSEIndexHistory(from: string, to: string) {
             to: to,
             fields: 'open,high,low,close,volume'
         });
-        const response = await fetch(`${apiTSEIndexHistoryUrl}?${payload}`, {
+        const response = await fetch(`${apiStockHistoryUrl}?${payload}`, {
             headers: headers,
         });
         if (!response.ok) {
