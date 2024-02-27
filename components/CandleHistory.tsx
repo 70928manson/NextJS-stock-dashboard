@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState, useTransition } from 'react'
 import { createChart } from 'lightweight-charts'
-import { fetchTSEIndexHistory } from '@/app/lib/homeAction';
 import { historyData, candleData, CandleHistoryProps } from '@/types/components/CandleHistory';
+import { fetchStockCandleHistory } from '@/app/lib/stockAction';
 
-const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
-    const [CandleHistoryData, setCandleHistoryData] = useState<historyData[]>([]);
+const CandleHistory = ({ candleToday, stockNo }: CandleHistoryProps) => {
+    const [candleHistoryData, setCandleHistoryData] = useState<historyData[]>([]);
     const [isPending, startTransition] = useTransition();
     const [loading, setLoading] = useState(true);
 
-    const fetchTSEData = async () => {
+    const fetchCandleHistoryData = async () => {
         const today = new Date();
 
         //上一個交易日
@@ -29,7 +29,8 @@ const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
         const from = `${startYear}-${startMonth}-${startDate}`;
 
         try {
-            const response = await fetchTSEIndexHistory(from, to);
+            const response = await fetchStockCandleHistory(from, to, stockNo);
+            
             setCandleHistoryData(response);
         } catch (error: any) {
             console.log("err", error);
@@ -42,7 +43,7 @@ const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
     }
 
     useEffect(() => {
-        startTransition(fetchTSEData);
+        startTransition(fetchCandleHistoryData);
     }, [])
 
     useEffect(() => {
@@ -58,7 +59,7 @@ const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
                 height: 400
             })
 
-            const data: candleData[] = CandleHistoryData.map((item) => {
+            const data: candleData[] = candleHistoryData.map((item) => {
                 return {
                     time: item.date,
                     open: item.open,
@@ -92,11 +93,12 @@ const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
 
             candlestickSeries.setData(data);
         }
-        if (CandleHistoryData.length === 0) return
+        
+        if (!candleHistoryData) return
         if (loading) return
         if (candleToday.time.length === 0) return
         fetchChart()
-    }, [CandleHistoryData, loading])
+    }, [candleHistoryData, loading])
 
     return (
         <>
@@ -107,12 +109,12 @@ const CandleHistory = ({ candleToday }: CandleHistoryProps) => {
                 </div>
             </div>}
             {!loading && <div className='w-[80%] overflow-auto mx-auto'>
-                {(CandleHistoryData.length === 0) ?
+                {(candleHistoryData.length === 0) ?
                     <div className="flex flex-col items-center justify-center bg-info h-96">
                         <h2 className="text-white text-center">OOPS！資料有誤，暫時無法顯示</h2>
                         <button
                             className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
-                            onClick={() => { fetchTSEData() }}
+                            onClick={() => { fetchCandleHistoryData() }}
                         >
                             重新整理
                         </button>

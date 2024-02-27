@@ -18,5 +18,6 @@ export interface candleData {
 }
 
 export interface CandleHistoryProps {
-    candleToday: candleData
+    candleToday: candleData;
+    stockNo: string;
 }
