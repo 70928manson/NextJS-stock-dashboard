@@ -2,11 +2,12 @@
 
 import MarketItem from "../components/home/MarketItem";
 import { useEffect, useState } from "react";
-import { fetchMarketTrades, fetchTSEIndex } from "./lib/homeAction";
+import { fetchMarketTrades } from "./lib/homeAction";
 
 import CandleHistory from "@/components/CandleHistory";
 import { candleData } from "@/types/components/CandleHistory";
 import { indexData, marketTradeData } from "@/types/home";
+import { fetchFugleTodayData } from "./lib/stockAction";
 
 export default function Home() {
   const [TSEindex, setTSEindex] = useState<indexData>({
@@ -46,7 +47,7 @@ export default function Home() {
     });
 
     //台股當日大盤指數
-    fetchTSEIndex().then((res) => {
+    fetchFugleTodayData("IX0001").then((res) => {
       //給candle圖的
       setTSEToday({
         time: res.date,
