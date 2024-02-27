@@ -6,10 +6,10 @@ import { fetchMarketTrades, fetchTSEIndex } from "./lib/homeAction";
 
 import CandleHistory from "@/components/CandleHistory";
 import { candleData } from "@/types/components/CandleHistory";
-import { marketTradeData } from "@/types/home";
+import { indexData, marketTradeData } from "@/types/home";
 
 export default function Home() {
-  const [TSEindex, setTSEindex] = useState({
+  const [TSEindex, setTSEindex] = useState<indexData>({
     closePrice: 0,
     change: 0,
     changePercent: 0,
@@ -88,7 +88,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <CandleHistory candleToday={TSEToday} />
+      <CandleHistory candleToday={TSEToday} stockNo="IX0001" />
       <div className="mt-2">
         產業熱力圖
       </div>

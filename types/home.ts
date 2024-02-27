@@ -1,3 +1,10 @@
+export interface indexData {
+    closePrice: number;
+    change: number;
+    changePercent: number;
+    totalTradeValue: number;
+}
+
 export interface marketTradeData {
     date: string;
     tradeVolume: number;
