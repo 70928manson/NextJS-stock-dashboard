@@ -1,10 +1,12 @@
+'use server';
+
+import { MTXContractOpenInterest, MTXContractRes, bigThreeMTXContract } from "@/types/indicator";
+import { accumulate } from "@/utils";
+
 // 小台散戶多空比 
 // - 散戶多空比 = (散戶多單 - 散戶空單) / 小型臺指期貨所有契約未沖銷契約量 x 100%
 // - 散戶多單 = 小型臺指期貨所有契約未沖銷契約量 - 三大法人多方未平倉量
 // - 散戶空單 = 小型臺指期貨所有契約未沖銷契約量 - 三大法人空方未平倉量
-
-import { MTXContractOpenInterest, MTXContractRes, bigThreeMTXContract } from "@/types/indicator";
-import { accumulate } from "@/utils";
 
 // 小型臺指期貨未沖銷契約量
 export async function fetchMxfMarketOi() {
@@ -17,12 +19,12 @@ export async function fetchMxfMarketOi() {
 
     const MTXContract = response.filter((res: MTXContractRes) => {
         return res.Contract === "MTX"
-    });    
+    });
 
     //未沖銷契約量
     const init = 0;
     const openInterestCount = MTXContract.map((contract: MTXContractOpenInterest) => contract.OpenInterest).reduce(accumulate, init);
-    
+
     return openInterestCount;
 }
 
