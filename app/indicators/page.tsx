@@ -1,6 +1,6 @@
-import { fetchTPEXMarginTransactions } from "../lib/TPEX/tpexAction";
-import { fetchTWSEMarginTransactions } from "../lib/TWSE/twseAction";
-import { fetchMxfMarketOi, fetchBigThreeMxf } from "../lib/indicatorAction";
+import { fetchTPEXMarginTransactions } from "../lib/TPEX/tpexActions";
+import { fetchTWSEMarginTransactions } from "../lib/TWSE/twseActions";
+import { fetchMxfMarketOi, fetchBigThreeMxf } from "../lib/TAIFEX/taifexActions";
 import { notFound } from 'next/navigation';
 
 export default async function Page() {

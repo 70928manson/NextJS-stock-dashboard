@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useTransition } from 'react'
 import { createChart } from 'lightweight-charts'
 import { historyData, candleData, CandleHistoryProps } from '@/types/components/CandleHistory';
-import { fetchStockCandleHistory } from '@/app/lib/stockAction';
+import { fetchStockCandleHistory } from '@/app/lib/Fugle/fugleAction';
 
 const CandleHistory = ({ candleToday, stockNo }: CandleHistoryProps) => {
     const [candleHistoryData, setCandleHistoryData] = useState<historyData[]>([]);

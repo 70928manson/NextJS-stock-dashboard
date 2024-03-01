@@ -2,12 +2,12 @@
 
 import MarketItem from "../components/home/MarketItem";
 import { useEffect, useState } from "react";
-import { fetchMarketTrades } from "./lib/homeAction";
+import { fetchMarketTrades } from "./lib/TWSE/twseActions";
 
 import CandleHistory from "@/components/CandleHistory";
 import { candleData } from "@/types/components/CandleHistory";
 import { indexData, marketTradeData } from "@/types/home";
-import { fetchFugleTodayData } from "./lib/stockAction";
+import { fetchFugleTodayData } from "./lib/Fugle/fugleActions";
 
 export default function Home() {
   const [TSEindex, setTSEindex] = useState<indexData>({
