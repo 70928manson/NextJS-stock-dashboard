@@ -2,6 +2,7 @@ import { fetchTPEXMarginTransactions } from "../lib/TPEX/tpexActions";
 import { fetchTWSEMarginTransactions } from "../lib/TWSE/twseActions";
 import { fetchMxfMarketOi, fetchBigThreeMxf } from "../lib/TAIFEX/taifexActions";
 import { notFound } from 'next/navigation';
+import { fetchUsTreasuryYields } from "../lib/USFinance/USFinanceActions";
 
 export default async function Page() {
     const today = new Date();
@@ -10,14 +11,15 @@ export default async function Page() {
     const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
     const yesterdayDate = String(yesterday.getDate()).padStart(2, "0");
 
-    const [openInterest, TWSEMarginTransactions, TPEXMarginTransactions, bigThreeOpenInterest] = await Promise.all([
+    const [openInterest, TWSEMarginTransactions, TPEXMarginTransactions, bigThreeOpenInterest, treasuryYields] = await Promise.all([
         fetchMxfMarketOi(),
         fetchTWSEMarginTransactions(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`),
         fetchTPEXMarginTransactions(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`),
         fetchBigThreeMxf(),
+        fetchUsTreasuryYields(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`)
     ])
 
-    if (!openInterest || !TWSEMarginTransactions || !TPEXMarginTransactions || !bigThreeOpenInterest) {
+    if (!openInterest || !TWSEMarginTransactions || !TPEXMarginTransactions || !bigThreeOpenInterest || !treasuryYields) {
         notFound();
     }
 
@@ -65,7 +67,14 @@ export default async function Page() {
                         <h4 className="text-sm p-2">三大法人空方未平倉: {bigThreeOpenInterest.short} </h4>
                         <h4 className="text-sm p-2">小台散戶多空比: {smallLongShortRation} </h4>
                     </div>
-
+                </div>
+                <h2 className="text-2xl p-2 font-bold">景氣循環指標 - 美國公債殖利率</h2>
+                <div className="p-1">
+                    <div>
+                        <p className="p-2">美國財政部公佈今日公債殖利率</p>
+                        <h4 className="text-sm p-2">今日10年公債殖利率: {treasuryYields.us10y} </h4>
+                        <h4 className="text-sm p-2">今日20年公債殖利率: {treasuryYields.us20y} </h4>
+                    </div>
                 </div>
             </div>
         </main>
