@@ -1,4 +1,4 @@
-import { fetchTWSEBasicData, fetchFugleTodayData } from '@/app/lib/Fugle/fugleAction';
+import { fetchTWSEBasicData, fetchFugleTodayData } from '@/app/lib/Fugle/fugleActions';
 import CandleHistory from '@/components/CandleHistory';
 import { notFound } from 'next/navigation';
 
