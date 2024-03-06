@@ -71,6 +71,7 @@ export async function fetchTWSEBasicData(date: string, stockNo: string) {
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
     if (!response) return null;
+    if (!response.data) return null;
 
     // 整理回應資料  => 這邊要改
     const data: stockTWSEData[] = response.data.map((row: string[]) => {
