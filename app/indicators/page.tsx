@@ -1,8 +1,9 @@
 import { fetchTPEXMarginTransactions } from "../lib/TPEX/tpexActions";
-import { fetchTWSEMarginTransactions } from "../lib/TWSE/twseActions";
+import { fetchDollarCostAveragingRank, fetchTWSEMarginTransactions } from "../lib/TWSE/twseActions";
 import { fetchMxfMarketOi, fetchBigThreeMxf } from "../lib/TAIFEX/taifexActions";
 import { notFound } from 'next/navigation';
 import { fetchUsTreasuryYields } from "../lib/USFinance/USFinanceActions";
+import { dollarCostAveragingRank } from "@/types/indicator";
 
 export default async function Page() {
     const today = new Date();
@@ -11,12 +12,13 @@ export default async function Page() {
     const yesterdayMonth = String(yesterday.getMonth() + 1).padStart(2, "0");
     const yesterdayDate = String(yesterday.getDate()).padStart(2, "0");
 
-    const [openInterest, TWSEMarginTransactions, TPEXMarginTransactions, bigThreeOpenInterest, treasuryYields] = await Promise.all([
+    const [openInterest, TWSEMarginTransactions, TPEXMarginTransactions, bigThreeOpenInterest, treasuryYields, dollarCostAveragingRank] = await Promise.all([
         fetchMxfMarketOi(),
         fetchTWSEMarginTransactions(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`),
         fetchTPEXMarginTransactions(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`),
         fetchBigThreeMxf(),
-        fetchUsTreasuryYields(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`)
+        fetchUsTreasuryYields(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`),
+        fetchDollarCostAveragingRank()
     ])
 
     if (!openInterest || !TWSEMarginTransactions || !TPEXMarginTransactions || !bigThreeOpenInterest || !treasuryYields) {
@@ -75,6 +77,18 @@ export default async function Page() {
                         <h4 className="text-sm p-2">今日10年公債殖利率: {treasuryYields.us10y} </h4>
                         <h4 className="text-sm p-2">今日20年公債殖利率: {treasuryYields.us20y} </h4>
                     </div>
+                </div>
+                <h2 className="text-2xl p-2 font-bold">定期定額排行</h2>
+                <div className="p-1">
+                    {
+                        dollarCostAveragingRank.map((rank: dollarCostAveragingRank) => {
+                            return <div className="flex items-center">
+                                <p>{rank.level}</p>
+                                <h4 className="text-sm p-2 w-[50%]">個股: {rank.stock.stockName} </h4>
+                                <h4 className="text-sm p-2 w-[50%]">ETF: {rank.etf.etfName} </h4>
+                            </div>
+                        })
+                    }
                 </div>
             </div>
         </main>

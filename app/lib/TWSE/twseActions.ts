@@ -159,3 +159,32 @@ export async function fetchTWSEMarginTransactions(date: string) {
         shortBalanceChange,
     };
 };
+// 取得個股&ETF定期定額排行
+export async function fetchDollarCostAveragingRank() {
+    const url = `https://www.twse.com.tw//ETFReport/ETFRank`;
+
+    // 取得回應資料
+    const response = await fetch(url).then((res) => res.json());
+
+    // 若該日期非交易日或尚無成交資訊則回傳 null
+    if (!response) return null;
+
+    // 整理回應資料
+    const data = response.data.map((row: string[]) => {
+        return {
+            level: row[0],
+            stock: {
+                stockCode: row[1],
+                stockName: row[2],
+                stockTradingAccont: row[3]
+            }, 
+            etf: {
+                etfCode: row[4],
+                etfName: row[5],
+                etfTradingAccont: row[6]
+            }
+        };
+    })
+
+    return data;
+};
