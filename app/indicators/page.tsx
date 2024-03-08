@@ -21,13 +21,13 @@ export default async function Page() {
         fetchDollarCostAveragingRank()
     ])
 
-    if (!openInterest || !TWSEMarginTransactions || !TPEXMarginTransactions || !bigThreeOpenInterest || !treasuryYields) {
-        notFound();
-    }
+    // if (!openInterest || !TWSEMarginTransactions || !TPEXMarginTransactions || !bigThreeOpenInterest || !treasuryYields) {
+    //     notFound();
+    // }
 
-    const smallLong = openInterest - bigThreeOpenInterest.long;     //散戶多單
-    const smallShort = openInterest - bigThreeOpenInterest.short;   //散戶空單
-    const smallClean = smallLong - smallShort;                      //散戶淨部位
+    const smallLong = bigThreeOpenInterest ? openInterest - bigThreeOpenInterest.long : 0;     //散戶多單
+    const smallShort = bigThreeOpenInterest ? openInterest - bigThreeOpenInterest.short : 0;   //散戶空單
+    const smallClean = bigThreeOpenInterest ? (smallLong - smallShort) : 0;                      //散戶淨部位
 
     // 散戶多空比 = 散戶淨部位 / 未沖銷契約量 * 100%
     const smallLongShortRation = (Math.round(smallClean / openInterest * 100 * 100) / 100).toFixed(2);
@@ -41,43 +41,51 @@ export default async function Page() {
             <div className="flex flex-col items-center">
                 <h2 className="text-2xl p-2 font-bold">散戶指標 - 融資融券餘額</h2>
                 <div className="flex justify-center">
-                    <div className="p-1">
-                        <h3 className="text-xl p-2 font-bold">集中市場</h3>
-                        <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TWSEMarginTransactions.marginBalance}</h4>
-                        <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TWSEMarginTransactions.marginBalanceChange}</h4>
-                        <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TWSEMarginTransactions.marginBalanceValue}</h4>
-                        <h4 className="text-lg p-2">融資餘額增減(仟元): {TWSEMarginTransactions.marginBalanceValueChange}</h4>
-                        <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TWSEMarginTransactions.shortBalance}</h4>
-                        <h4 className="text-lg p-2">融券餘額增減(交易單位): {TWSEMarginTransactions.shortBalanceChange}</h4>
-                    </div>
-                    <div className="p-1">
-                        <h3 className="text-xl p-2 font-bold">櫃買中心</h3>
-                        <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TPEXMarginTransactions.marginBalance}</h4>
-                        <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TPEXMarginTransactions.marginBalanceChange}</h4>
-                        <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TPEXMarginTransactions.marginBalanceValue}</h4>
-                        <h4 className="text-lg p-2">融資餘額增減(仟元): {TPEXMarginTransactions.marginBalanceValueChange}</h4>
-                        <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TPEXMarginTransactions.shortBalance}</h4>
-                        <h4 className="text-lg p-2">融券餘額增減(交易單位): {TPEXMarginTransactions.shortBalanceChange}</h4>
-                    </div>
+                    {
+                        TWSEMarginTransactions && <div className="p-1">
+                            <h3 className="text-xl p-2 font-bold">集中市場</h3>
+                            <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TWSEMarginTransactions.marginBalance}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TWSEMarginTransactions.marginBalanceChange}</h4>
+                            <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TWSEMarginTransactions.marginBalanceValue}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減(仟元): {TWSEMarginTransactions.marginBalanceValueChange}</h4>
+                            <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TWSEMarginTransactions.shortBalance}</h4>
+                            <h4 className="text-lg p-2">融券餘額增減(交易單位): {TWSEMarginTransactions.shortBalanceChange}</h4>
+                        </div>
+                    }
+                    {
+                        TPEXMarginTransactions && <div className="p-1">
+                            <h3 className="text-xl p-2 font-bold">櫃買中心</h3>
+                            <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TPEXMarginTransactions.marginBalance}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TPEXMarginTransactions.marginBalanceChange}</h4>
+                            <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TPEXMarginTransactions.marginBalanceValue}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減(仟元): {TPEXMarginTransactions.marginBalanceValueChange}</h4>
+                            <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TPEXMarginTransactions.shortBalance}</h4>
+                            <h4 className="text-lg p-2">融券餘額增減(交易單位): {TPEXMarginTransactions.shortBalanceChange}</h4>
+                        </div>
+                    }
                 </div>
                 <h2 className="text-2xl p-2 font-bold">散戶指標 - 小台散戶多空比</h2>
-                <div className="p-1">
-                    <div>
-                        <p className="p-2">散戶多空比 = 散戶淨部位 / 未沖銷契約量 * 100%</p>
-                        <h4 className="text-sm p-2">未沖銷契約量: {openInterest} </h4>
-                        <h4 className="text-sm p-2">三大法人多方未平倉: {bigThreeOpenInterest.long} </h4>
-                        <h4 className="text-sm p-2">三大法人空方未平倉: {bigThreeOpenInterest.short} </h4>
-                        <h4 className="text-sm p-2">小台散戶多空比: {smallLongShortRation} </h4>
+                {
+                    bigThreeOpenInterest && <div className="p-1">
+                        <div>
+                            <p className="p-2">散戶多空比 = 散戶淨部位 / 未沖銷契約量 * 100%</p>
+                            <h4 className="text-sm p-2">未沖銷契約量: {openInterest} </h4>
+                            <h4 className="text-sm p-2">三大法人多方未平倉: {bigThreeOpenInterest.long} </h4>
+                            <h4 className="text-sm p-2">三大法人空方未平倉: {bigThreeOpenInterest.short} </h4>
+                            <h4 className="text-sm p-2">小台散戶多空比: {smallLongShortRation} </h4>
+                        </div>
                     </div>
-                </div>
+                }
                 <h2 className="text-2xl p-2 font-bold">景氣循環指標 - 美國公債殖利率</h2>
-                <div className="p-1">
-                    <div>
-                        <p className="p-2">美國財政部公佈今日公債殖利率</p>
-                        <h4 className="text-sm p-2">今日10年公債殖利率: {treasuryYields.us10y} </h4>
-                        <h4 className="text-sm p-2">今日20年公債殖利率: {treasuryYields.us20y} </h4>
+                {
+                    treasuryYields && <div className="p-1">
+                        <div>
+                            <p className="p-2">美國財政部公佈今日公債殖利率</p>
+                            <h4 className="text-sm p-2">今日10年公債殖利率: {treasuryYields.us10y} </h4>
+                            <h4 className="text-sm p-2">今日20年公債殖利率: {treasuryYields.us20y} </h4>
+                        </div>
                     </div>
-                </div>
+                }
                 <h2 className="text-2xl p-2 font-bold">定期定額排行</h2>
                 <div className="p-1">
                     {
