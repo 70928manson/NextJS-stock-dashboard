@@ -72,7 +72,7 @@ const CandleHistory = ({ candleToday, stockNo }: CandleHistoryProps) => {
             data.reverse();
 
             //這裡push最新今日資料
-            if (data[data.length - 1].time !== candleToday.time) {
+            if (data[data.length - 1].time !== candleToday.time  && data[data.length - 2].time !== candleToday.time) {
                 data.push({
                     time: candleToday.time,
                     open: candleToday.open,
@@ -91,7 +91,12 @@ const CandleHistory = ({ candleToday, stockNo }: CandleHistoryProps) => {
                 wickDownColor: '#26A69A'
             });
 
-            candlestickSeries.setData(data);
+            try {
+                candlestickSeries.setData(data);
+            } catch (err) {
+                console.log("err", err);
+                candlestickSeries.setData(data.slice(0, data.length));
+            }
         }
         
         if (!candleHistoryData) return
