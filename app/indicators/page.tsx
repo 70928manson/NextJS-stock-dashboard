@@ -44,23 +44,23 @@ export default async function Page() {
                     {
                         TWSEMarginTransactions && <div className="p-1">
                             <h3 className="text-xl p-2 font-bold">集中市場</h3>
-                            <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TWSEMarginTransactions.marginBalance}</h4>
-                            <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TWSEMarginTransactions.marginBalanceChange}</h4>
-                            <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TWSEMarginTransactions.marginBalanceValue}</h4>
-                            <h4 className="text-lg p-2">融資餘額增減(仟元): {TWSEMarginTransactions.marginBalanceValueChange}</h4>
-                            <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TWSEMarginTransactions.shortBalance}</h4>
-                            <h4 className="text-lg p-2">融券餘額增減(交易單位): {TWSEMarginTransactions.shortBalanceChange}</h4>
+                            <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TWSEMarginTransactions.marginBalance || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TWSEMarginTransactions.marginBalanceChange || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TWSEMarginTransactions.marginBalanceValue || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減(仟元): {TWSEMarginTransactions.marginBalanceValueChange || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TWSEMarginTransactions.shortBalance || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融券餘額增減(交易單位): {TWSEMarginTransactions.shortBalanceChange || "TAIFEX資料統整中"}</h4>
                         </div>
                     }
                     {
                         TPEXMarginTransactions && <div className="p-1">
                             <h3 className="text-xl p-2 font-bold">櫃買中心</h3>
-                            <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TPEXMarginTransactions.marginBalance}</h4>
-                            <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TPEXMarginTransactions.marginBalanceChange}</h4>
-                            <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TPEXMarginTransactions.marginBalanceValue}</h4>
-                            <h4 className="text-lg p-2">融資餘額增減(仟元): {TPEXMarginTransactions.marginBalanceValueChange}</h4>
-                            <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TPEXMarginTransactions.shortBalance}</h4>
-                            <h4 className="text-lg p-2">融券餘額增減(交易單位): {TPEXMarginTransactions.shortBalanceChange}</h4>
+                            <h4 className="text-lg p-2">融資今日餘額 (交易單位): {TPEXMarginTransactions.marginBalance || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減 (交易單位): {TPEXMarginTransactions.marginBalanceChange || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融資金額(仟元)-今日餘額: {TPEXMarginTransactions.marginBalanceValue || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融資餘額增減(仟元): {TPEXMarginTransactions.marginBalanceValueChange || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融券(交易單位)-今日餘額: {TPEXMarginTransactions.shortBalance || "TAIFEX資料統整中"}</h4>
+                            <h4 className="text-lg p-2">融券餘額增減(交易單位): {TPEXMarginTransactions.shortBalanceChange || "TAIFEX資料統整中"}</h4>
                         </div>
                     }
                 </div>
