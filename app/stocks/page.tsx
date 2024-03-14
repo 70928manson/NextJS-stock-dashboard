@@ -1,3 +1,5 @@
+import StockItem from "@/components/StockItem";
+
 export default async function Page() {
     const hotStocks = [
         '2330',
@@ -6,7 +8,7 @@ export default async function Page() {
         '00878',
         '00919',
         '00929',
-    ]
+    ];
 
     return (
         <main className="w-[80%] h-full mx-auto">
@@ -15,7 +17,7 @@ export default async function Page() {
             <div className='text-center'>
                 <div className="flex justify-center items-center">
                     {hotStocks.map((stock) => {
-                        return <div className="p-1 m-1 cursor-pointer hover:bg-sky-100 hover:text-blue-600 border rounded-lg">{stock}</div>
+                        return <StockItem stock={stock}/>
                     })}
                 </div>
             </div>
