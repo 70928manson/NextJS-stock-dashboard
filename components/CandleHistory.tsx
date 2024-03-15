@@ -72,7 +72,11 @@ const CandleHistory = ({ candleToday, stockNo }: CandleHistoryProps) => {
             data.reverse();
 
             //這裡push最新今日資料
-            if (data[data.length - 1].time !== candleToday.time  && data[data.length - 2].time !== candleToday.time) {
+            const timeArr = data.map((candle) => {
+                return candle.time
+            });
+
+            if (timeArr.indexOf(candleToday.time) === -1) {
                 data.push({
                     time: candleToday.time,
                     open: candleToday.open,
