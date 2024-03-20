@@ -31,6 +31,9 @@ export default async function Page({ params }: { params: { id: string } }) {
         low: todayData.lowPrice,
         value: todayData.closePrice
     }
+
+    console.log("todayData", todayData);
+    
     
     return (
         <main>
@@ -38,7 +41,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div>
                 <p>Current params id: {id}</p>
 
-                <p>價格: {todayData.lastTrade.price}</p>
+                <p>價格: {todayData?.lastTrade?.price ? todayData.lastTrade.price : todayData.lastTrial.price}</p>
                 <p>漲跌幅: {todayData.changePercent}</p>
                 <p>漲跌金額: {todayData.change}</p>
                 <p>成交量: {todayData.total.tradeVolume}</p>
