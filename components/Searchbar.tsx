@@ -27,7 +27,7 @@ export default function Searchbar({ placeholder }: { placeholder: string }) {
     }, 300);
 
     return (
-        <div className="relative flex flex-1 flex-shrink-0 mr-4 mt-1">
+        <div className="relative flex flex-1 flex-shrink-0 mr-4 mt-1 w-full">
             <label htmlFor="search" className="sr-only">
                 Search
             </label>
