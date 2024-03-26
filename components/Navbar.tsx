@@ -17,6 +17,8 @@ const links = [
     // { name: '註冊', href: '/signup', icon: "" },
 ];
 
+// TODO: '' 換成 ""
+
 export default function Navbar() {
     const [open, setOpen] = useState(false);
 
@@ -55,9 +57,9 @@ export default function Navbar() {
                                 key={link.name}
                                 href={link.href}
                                 className={clsx(
-                                    'md:ml-8 text-base lg:text-xl md:my-0 my-7',
+                                    'md:ml-8 text-base lg:text-xl md:my-0 my-7 hover:text-indigo-400',
                                     {
-                                        'text-indigo-400 border-b-2 border-indigo-600': pathname === link.href
+                                        'text-indigo-500 border-b-2 border-indigo-600': pathname === link.href
                                     },
                                     {
                                         'text-black md:text-white bg-black md:border md:rounded': link.name === "註冊"
