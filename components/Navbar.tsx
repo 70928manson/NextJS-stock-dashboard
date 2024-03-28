@@ -26,9 +26,14 @@ export default function Navbar() {
         <div className="shadow-md w-full sticky top-0 left-0 mb-2">
             <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
                 <div className="font-bold text-2xl cursor-pointer flex items-center text-gray-800">
+                    <Link
+                        key="icon"
+                        href="/"
+                    >
                     <span className="text-2xl lg:text-3xl text-indigo-600 mr-1 pt-2">
-                        Financial corner
+                        Financial Corner
                     </span>
+                    </Link>
                     {/* Designer */}
                 </div>
 
@@ -44,8 +49,8 @@ export default function Navbar() {
                     }
                 </div>
 
-                <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? "top-20 " : "top-[-490px]"}`}>
-                    <div className="w-[33%] lg:w-[40%]">
+                <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? "top-16 " : "top-[-490px]"}`}>
+                    <div className="w-[66%] md:w-[27%] lg:w-[40%]">
                         <Searchbar placeholder="請輸入股票代碼" />
                     </div>
                     {links.map((link) => {
@@ -55,7 +60,7 @@ export default function Navbar() {
                                 key={link.name}
                                 href={link.href}
                                 className={clsx(
-                                    "md:ml-8 text-base lg:text-xl md:my-0 my-7 hover:text-indigo-400",
+                                    "md:py-0 md:ml-8 text-base lg:text-xl md:my-0 my-7 hover:text-indigo-400",
                                     {
                                         "text-indigo-500 border-b-2 border-indigo-600": pathname === link.href
                                     },
@@ -65,11 +70,11 @@ export default function Navbar() {
                                 )}
                             >
                                 {/* <LinkIcon className="w-6" /> */}
-                                <p className="font-bold">{link.name}</p>
+                                <p className="font-bold pt-2">{link.name}</p>
                             </Link>
                         );
                     })}
-                    <button className="bg-indigo-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500">
+                    <button className="mt-2 md:mt-0 bg-indigo-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500">
                         登入 / 註冊
                     </button>
                 </ul>
