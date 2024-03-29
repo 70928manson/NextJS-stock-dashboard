@@ -50,7 +50,7 @@ export default function Navbar() {
                 </div>
 
                 <ul className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${open ? "top-16 " : "top-[-490px]"}`}>
-                    <div className="w-[66%] md:w-[27%] lg:w-[40%]">
+                    <div className="w-[35%] md:w-[27%] lg:w-[40%]">
                         <Searchbar placeholder="請輸入股票代碼" />
                     </div>
                     {links.map((link) => {
