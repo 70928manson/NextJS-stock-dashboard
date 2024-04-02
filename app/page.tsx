@@ -80,7 +80,7 @@ export default function Home() {
   return (
     <main className="flex min-h-main-content flex-col items-center">
       <div className="max-w-[1140px] w-[80%] m-home-market-info">
-        <div className="w-full overflow-hidden relative bg-white rounded shadow-home-market-info my-auto">
+        <div className="w-full overflow-hidden bg-white rounded shadow-home-market-info my-auto">
           <div className="flex m-2 mt-6">
             <MarketItem title={"台股加權指數"} value={`${TSEindex.closePrice}`} misc={`${TSEindex.change} (${TSEindex.changePercent}%)`} status={status} />
             <MarketItem title={"台股成交金額"} value={`${TSEindex.totalTradeValue}億`} misc={`昨日${Math.round(yesterdayData.tradeValue / 100000000 * 100) / 100}億`} />
