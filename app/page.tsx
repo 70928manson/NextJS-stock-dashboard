@@ -60,10 +60,10 @@ export default function Home() {
       
       //給marketItem的
       setTSEindex({
-        closePrice: res.closePrice,
-        change: res.change,
-        changePercent: res.changePercent,
-        totalTradeValue: Math.round(res.total.tradeValue / 100000000 * 100) / 100
+        closePrice: res.closePrice ? res.closePrice : 0,
+        change: res.change ? res.change : 0,
+        changePercent: res.changePercent ? res.changePercent : 0,
+        totalTradeValue: res?.total?.tradeValue ? Math.round(res.total.tradeValue / 100000000 * 100) / 100 : 0
       })
       if (res.change > 0) {
         setStatus("up");
@@ -82,8 +82,8 @@ export default function Home() {
       <div className="max-w-[1140px] w-[80%] m-home-market-info">
         <div className="w-full overflow-hidden bg-white rounded shadow-home-market-info my-auto">
           <div className="flex m-2 mt-6">
-            <MarketItem title={"台股加權指數"} value={`${TSEindex.closePrice}`} misc={`${TSEindex.change} (${TSEindex.changePercent}%)`} status={status} />
-            <MarketItem title={"台股成交金額"} value={`${TSEindex.totalTradeValue}億`} misc={`昨日${Math.round(yesterdayData.tradeValue / 100000000 * 100) / 100}億`} />
+            <MarketItem title={"台股加權指數"} value={TSEindex.closePrice ? `${TSEindex.closePrice}` : `資料整理中`} misc={(TSEindex.change && TSEindex.changePercent) ? `${TSEindex.change} (${TSEindex.changePercent}%)` : `- (-)%`} status={status} />
+            <MarketItem title={"台股成交金額"} value={TSEindex.totalTradeValue ? `${TSEindex.totalTradeValue}億` : `資料整理中`} misc={yesterdayData.tradeValue ? `昨日${Math.round(yesterdayData.tradeValue / 100000000 * 100) / 100}億` : `資料整理中`} />
             <MarketItem title={"台股股價淨值比"} value={`2.13倍`} misc={`昨日2.13倍`} />
             <MarketItem title={"台股本益比"} value={`21.25倍`} misc={`昨日21.25倍`} />
           </div>
