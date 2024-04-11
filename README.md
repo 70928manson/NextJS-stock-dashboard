@@ -1,7 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 > 串接證交所, 證券櫃買中心, 期貨交易所和富果API, 獲取總體經濟數據判斷景氣週期
-> 個股基本資訊
 
 ## Getting Started
 
