@@ -34,7 +34,7 @@ export default async function Page() {
 
     return (
         <main className="w-[80%] h-full mx-auto">
-            <p className="text-center">經濟指標: 散戶, 大戶, 法人, Fed利率</p>
+            <h1 className="text-center">經濟指標: 散戶, 大戶, 法人, Fed利率</h1>
             
             {/* <h3 className="text-lg p-2 font-bold">三大法人買賣超</h3> */}
 

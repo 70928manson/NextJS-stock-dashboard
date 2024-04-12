@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         fetchTWSEBasicData(`${yesterdayYear}-${yesterdayMonth}-${yesterdayDate}`, id),
         fetchFugleTodayData(id),
     ]);
-    
+
     if (!todayData) {
         notFound();
     }
@@ -31,12 +31,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         low: todayData.lowPrice,
         value: todayData.closePrice
     }
-
-    console.log("================");
-    console.log("basic", basic);
-    console.log("富果今日資料", todayData);
-    //富果api出錯 抓到不對的日期的資料
-    console.log("================");
 
     return (
         <main>
