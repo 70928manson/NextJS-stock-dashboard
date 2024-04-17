@@ -78,12 +78,15 @@ export default async function Page() {
                 }
                 <h2 className="text-2xl p-2 font-bold">景氣循環指標 - 美國公債殖利率</h2>
                 {
-                    treasuryYields && <div className="p-1">
+                    treasuryYields ? <div className="p-1">
                         <div>
                             <p className="p-2">美國財政部公佈今日公債殖利率</p>
-                            <h4 className="text-sm p-2">今日10年公債殖利率: {treasuryYields.us10y} </h4>
-                            <h4 className="text-sm p-2">今日20年公債殖利率: {treasuryYields.us20y} </h4>
+                            <h4 className="text-sm p-2">今日10年公債殖利率: {treasuryYields?.us10y || "美國財政部資料統整中"} </h4>
+                            <h4 className="text-sm p-2">今日20年公債殖利率: {treasuryYields?.us20y || "美國財政部資料統整中"} </h4>
                         </div>
+                    </div> : 
+                    <div className="p-3">
+                            <p>"美國財政部資料統整中"</p>
                     </div>
                 }
                 <h2 className="text-2xl p-2 font-bold">定期定額排行</h2>
