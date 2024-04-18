@@ -19,7 +19,9 @@ export async function fetchMarketTrades(date: string) {
     const url = `https://www.twse.com.tw/exchangeReport/FMTQIK?${query}`;
 
     // 取得回應資料
-    const response = await fetch(url).then((res) => res.json());
+    const response = await fetch(url, {
+        next: { revalidate: 5 },
+    }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
     if (!response) return null;
@@ -67,7 +69,9 @@ export async function fetchTWSEBasicData(date: string, stockNo: string) {
     const url = `https://www.twse.com.tw/rwd/zh/afterTrading/BWIBBU?${query}`;
 
     // 取得回應資料
-    const response = await fetch(url).then((res) => res.json());
+    const response = await fetch(url, {
+        next: { revalidate: 5 },
+    }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
     if (!response) return null;
@@ -112,7 +116,9 @@ export async function fetchTWSEMarginTransactions(date: string) {
     const url = `https://www.twse.com.tw/exchangeReport/MI_MARGN?${query}`;
 
     // 取得回應資料
-    const response = await fetch(url).then((res) => res.json());
+    const response = await fetch(url, {
+        next: { revalidate: 5 },
+    }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
     if (!response) return null;
@@ -164,7 +170,9 @@ export async function fetchDollarCostAveragingRank() {
     const url = `https://www.twse.com.tw//ETFReport/ETFRank`;
 
     // 取得回應資料
-    const response = await fetch(url).then((res) => res.json());
+    const response = await fetch(url, {
+        next: { revalidate: 5 },
+    }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
     if (!response) return null;

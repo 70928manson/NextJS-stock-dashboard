@@ -13,8 +13,9 @@ export async function fetchMxfMarketOi() {
     try {
         const url = "https://openapi.taifex.com.tw/v1/DailyMarketReportFut"
 
-        const response = await fetch(url).then((res) => res.json()).catch((err) => {
-            console.log("fetchMxfMarketOi err", err);
+        const response = await fetch(url, {
+            next: { revalidate: 5 },
+        }).then((res) => res.json()).catch((err) => {
             return null;
         });
 
@@ -40,8 +41,9 @@ export async function fetchBigThreeMxf() {
     try {
         const url = "https://openapi.taifex.com.tw/v1/MarketDataOfMajorInstitutionalTradersDetailsOfFuturesContractsBytheDate";
 
-        const response = await fetch(url).then((res) => res.json()).catch((err) => {
-            console.log("fetchBigThreeMxf err", err);
+        const response = await fetch(url, {
+            next: { revalidate: 5 },
+        }).then((res) => res.json()).catch((err) => {
             return null;
         });
 

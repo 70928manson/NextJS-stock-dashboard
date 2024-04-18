@@ -12,7 +12,9 @@ export async function fetchUsTreasuryYields(date: string) {
     const url = `https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/all/${month}?type=daily_treasury_yield_curve&field_tdr_date_value_month=${month}&page&_format=csv`
 
     // 美國財政部回傳該月每日美債殖利率紀錄 csv 資料
-    const csvString = await fetch(url).then((res) => res.text());
+    const csvString = await fetch(url, {
+        next: { revalidate: 5 },
+    }).then((res) => res.text());
     // 若尚無該日期資訊則回傳 null
     if (!csvString) return null;
 

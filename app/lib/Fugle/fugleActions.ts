@@ -18,6 +18,7 @@ export async function fetchFugleTodayData(stockNo: string) {
 
         const response = await fetch(`${apiTSEIndexUrl}`, {
             headers: headers,
+            next: { revalidate: 2 },
         });
 
         if (!response.ok) {
@@ -46,6 +47,7 @@ export async function fetchStockCandleHistory(from: string, to: string, stockNo:
         });
         const response = await fetch(`${apiStockHistoryUrl}?${payload}`, {
             headers: headers,
+            cache: 'no-store'
         });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
