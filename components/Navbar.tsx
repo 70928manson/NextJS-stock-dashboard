@@ -13,8 +13,6 @@ const links = [
     { name: "ETF", href: "/ETF", icon: "" },
     // { name: "ROI", href: "/ROI", icon: "" },
     // { name: "追蹤", href: "/portfolios", icon: "" },
-    // { name: "登入", href: "/signin", icon: "" },
-    // { name: "註冊", href: "/signup", icon: "" },
 ];
 
 export default function Navbar() {
@@ -74,9 +72,16 @@ export default function Navbar() {
                             </Link>
                         );
                     })}
-                    <button className="mt-2 md:mt-0 bg-indigo-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500">
-                        登入 / 註冊
-                    </button>
+                    {/* const LinkIcon = link.icon; */}
+                    <Link 
+                        key={"登入註冊"}
+                        href={"/login"}
+                    >
+                        {/* <LinkIcon className="w-6" /> */}
+                        <button className="mt-2 md:mt-0 bg-indigo-600 text-white font-[Poppins] py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500">
+                            登入 / 註冊
+                        </button>
+                    </Link>
                 </ul>
             </div>
         </div>
