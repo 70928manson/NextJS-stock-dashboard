@@ -2,7 +2,9 @@
 import { JSDOM } from 'jsdom';
 
 export async function getDownloads(etf: string = '0050') {
-    const res = await fetch(`https://matchbox.space/etf?stock=${etf}.TW`)
+    const res = await fetch(`https://matchbox.space/etf?stock=${etf}.TW`, {
+        cache: 'no-store',
+    })
 
     
     const html = await res.text();

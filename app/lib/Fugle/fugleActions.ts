@@ -18,7 +18,7 @@ export async function fetchFugleTodayData(stockNo: string) {
 
         const response = await fetch(`${apiTSEIndexUrl}`, {
             headers: headers,
-            next: { revalidate: 2 },
+            cache: 'no-store'
         });
 
         if (!response.ok) {

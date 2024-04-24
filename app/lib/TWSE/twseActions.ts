@@ -20,7 +20,7 @@ export async function fetchMarketTrades(date: string) {
 
     // 取得回應資料
     const response = await fetch(url, {
-        next: { revalidate: 5 },
+        cache: 'no-store',
     }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
@@ -70,7 +70,7 @@ export async function fetchTWSEBasicData(date: string, stockNo: string) {
 
     // 取得回應資料
     const response = await fetch(url, {
-        next: { revalidate: 5 },
+        cache: 'no-store',
     }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
@@ -117,7 +117,7 @@ export async function fetchTWSEMarginTransactions(date: string) {
 
     // 取得回應資料
     const response = await fetch(url, {
-        next: { revalidate: 5 },
+        cache: 'no-store',
     }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null
@@ -171,7 +171,7 @@ export async function fetchDollarCostAveragingRank() {
 
     // 取得回應資料
     const response = await fetch(url, {
-        next: { revalidate: 5 },
+        cache: 'no-store',
     }).then((res) => res.json());
 
     // 若該日期非交易日或尚無成交資訊則回傳 null

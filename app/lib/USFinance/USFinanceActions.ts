@@ -13,7 +13,7 @@ export async function fetchUsTreasuryYields(date: string) {
 
     // 美國財政部回傳該月每日美債殖利率紀錄 csv 資料
     const csvString = await fetch(url, {
-        next: { revalidate: 5 },
+        cache: 'no-store',
     }).then((res) => res.text());
     // 若尚無該日期資訊則回傳 null
     if (!csvString) return null;
