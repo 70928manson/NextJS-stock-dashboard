@@ -7,11 +7,8 @@ export default async function Page() {
     //fetchFugleTodayData
     const [todayData, test] = await Promise.all([
         fetchFugleTodayData('0050'),
-        getDownloads("00929")
+        getDownloads("00929"),
     ]);
-
-     console.log("test", test);
-    
 
     return (
         <main>
@@ -30,7 +27,7 @@ export default async function Page() {
             <StockListbox /> 
             <h2>持股池</h2>
             <div className="flex">
-                <div>
+                <div className="p-5">
                     <h3>00929</h3>
                     {
                         test.map((t) => {
