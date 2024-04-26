@@ -12,7 +12,7 @@ const links = [
     { name: "個股", href: "/stocks", icon: "" },
     { name: "ETF", href: "/ETF", icon: "" },
     // { name: "ROI", href: "/ROI", icon: "" },
-    // { name: "追蹤", href: "/portfolios", icon: "" },
+    { name: "追蹤", href: "/portfolios", icon: "" },
 ];
 
 export default function Navbar() {
