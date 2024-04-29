@@ -3,8 +3,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 > 串接證交所, 證券櫃買中心, 期貨交易所和富果API, 獲取總體經濟數據判斷景氣週期
 >
 > 股市基本資訊查詢
-> 
-> 抓取高股息成份股, 分析共同持股
 
 ## Getting Started
 
